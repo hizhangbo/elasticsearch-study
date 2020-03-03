@@ -36,6 +36,8 @@ public abstract class BaseService<T> {
 
     public abstract T findById(String id);
 
+    public abstract long count(T doc);
+
     public T transferDoc(Map<String, Object> doc) {
         if (clazz.isAnnotationPresent(Document.class)) {
             try {

@@ -25,10 +25,10 @@ public class ElasticsearchBoot {
 //        System.out.println(id);
 
         // update
-        Book book = Book.builder().author("斯诺登").name("永久记录").classify("自传").ISBN("112233").build();
-
-        String id = "BEqikXAB14VHtwTpc5ur";
-        bookService.update(id, book);
+//        Book book = Book.builder().author("斯诺登").name("永久记录").classify("自传").ISBN("112233").build();
+//
+//        String id = "BEqikXAB14VHtwTpc5ur";
+//        bookService.update(id, book);
 
         // find
 //        Book book = bookService.findById(id);
@@ -36,6 +36,11 @@ public class ElasticsearchBoot {
 
         // delete
 //        bookService.remove("AUpakXAB14VHtwTp4Zun");
+
+        // count
+        long count = bookService.count(null);
+        System.out.println("数据总数：" + count);
+
 
         applicationContext.close();
     }

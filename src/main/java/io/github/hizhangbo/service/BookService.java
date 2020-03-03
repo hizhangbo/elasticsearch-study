@@ -12,7 +12,11 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -90,5 +94,20 @@ public class BookService extends BaseService<Book> {
 
         Map<String, Object> resultMap = getResponse.getSource();
         return transferDoc(resultMap);
+    }
+
+    @Override
+    public long count(Book doc) {
+        CountRequest countRequest = new CountRequest();
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        countRequest.source(searchSourceBuilder);
+        CountResponse countResponse = null;
+        try {
+            countResponse = client.count(countRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            log.error(e);
+        }
+        return countResponse == null ? 0 : countResponse.getCount();
     }
 }
